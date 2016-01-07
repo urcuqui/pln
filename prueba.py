@@ -53,7 +53,7 @@ res=''
 
 # Create your views here.
 
-def index(request):
+def index():
     """Renders the index page"""
     res = ''
 
@@ -64,6 +64,7 @@ def index(request):
     for s in ls :
        ws = s.get_words();
        for w in ws :
-          res +=(w.get_form()+" "+w.get_lemma()+" "+w.get_tag()+" "+w.get_senses_string()+"'<br>'")
-           
-    return render_to_response('index.html',{'courts': res})
+          print(w.get_form()+" "+w.get_lemma()+" "+w.get_tag()+" "+w.get_senses_string())
+
+
+index()
