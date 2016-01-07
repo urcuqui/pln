@@ -12,7 +12,7 @@ import sys
 import site
 
 # Add the site-packages of the chosen virtualenv to work with
-site.addsitedir('~/.virtualenvs/pln/local/lib/python2.7/site-packages')
+site.addsitedir('~/.virtualenvs/pln_env/local/lib/python2.7/site-packages')
 
 
 from django.core.wsgi import get_wsgi_application
@@ -25,7 +25,7 @@ sys.path.append('/var/www/pln/pln')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pln.settings")
 
 # Activate your virtual env
-activate_env=os.path.expanduser("/home/i2t/.virtualenvs/pln/bin/activate_this.py")
+activate_env=os.path.expanduser("/home/i2t/.virtualenvs/pln_env/bin/activate_this.py")
 execfile(activate_env, dict(__file__=activate_env))
 
 application = get_wsgi_application()
