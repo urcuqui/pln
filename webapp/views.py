@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response, render
+from django.template import RequestContext
 import sys
 import json
 sys.path.append('.../myfreeling/APIs/python')
@@ -8,6 +9,8 @@ import codecs
 import re
 import time
 from datetime import date
+from .forms import NameForm
+
 
 ## ----------------------------------------------
 ## -------------    MAIN PROGRAM  ---------------
@@ -55,15 +58,58 @@ res=''
 
 def index(request):
     """Renders the index page"""
-    res = ''
-
+    get_form = ''
+    get_lemma = ''
+    get_tag = ''
+    get_senses_string = ''
+    respuesta = '('
     l = tk.tokenize(DATA)
     ls = sp.split(l,0)
+    # Analisis morfologico
     ls = mf.analyze(ls)
 
     for s in ls :
        ws = s.get_words();
        for w in ws :
-          res +=(w.get_form()+" "+w.get_lemma()+" "+w.get_tag()+" "+w.get_senses_string()+"'<br>'")
-           
-    return render_to_response('index.html',{'courts': res})
+          get_form += w.get_form()+" "
+          respuesta +=("("+w.get_form()+" ("+w.get_tag()+")) ")
+          # get_lemma += w.get_lemma()+" "
+          # get_tag += w.get_tag() + " "
+          #get_senses_string += w.get_senses_string() + " "
+    respuesta +=")"
+    # return render_to_response('index.html',{'get_form': get_form,'get_lemma':get_lemma,'get_tag':get_tag,
+    #                                         'get_senses_string': get_senses_string})
+    return render_to_response('index.html',{'respuesta':respuesta, 'get_form': get_form})
+
+
+def get_name(request):
+     # if this is a POST request we need to process the form data
+    if request.method == 'GET':
+        # create a form instance and populate it with data from the request:
+        form = NameForm(request.GET)
+        # check whether it's valid:
+        if form.is_valid():
+            print('OK')
+            data = form.cleaned_data['textInput']
+            get_form = ''
+            respuesta = '('
+            l = tk.tokenize(data)
+            ls = sp.split(l,0)
+            # Analisis morfologico
+            ls = mf.analyze(ls)
+            for s in ls :
+               ws = s.get_words();
+               for w in ws :
+                  get_form += w.get_form()+" "
+                  respuesta +=("("+w.get_form()+" ("+w.get_tag()+")) ")
+                  # get_lemma += w.get_lemma()+" "
+                  # get_tag += w.get_tag() + " "
+                  #get_senses_string += w.get_senses_string() + " "
+            respuesta +=")"
+            return render_to_response('index.html', RequestContext(request,{'respuesta':respuesta, 'get_form': ''}))
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NameForm()
+
+    return render(request, 'index.html', {'respuesta': 'nada'})

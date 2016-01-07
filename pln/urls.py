@@ -20,4 +20,5 @@ from webapp import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name='index'),
+    url(r'^your-name/', views.get_name, name='name'),
 ]

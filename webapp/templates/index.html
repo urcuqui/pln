@@ -7,17 +7,36 @@
 </head>
 
 <body>
-    <h1>Trabajo de PLN para FCI</h1>
+    <h1>Trabajo de PLN para Fundamentos de computacion inteligente</h1>
     <h2>Christian Camilo Urcuqui</h2>
     <br>
     <br>
-<form >
-  Escriba la sentencia: <input type="text" name="txtTexto"><br>
+<form action="/your-name/" method="get">
+    <b>Escriba la sentencia:</b>
     <br>
-  <input type="submit" value="Submit">
+    <textarea class="form-control" rows="3"
+              name="textInput" placeholder="Escriba la oración a ser analizada"
+              style="margin: 0px -1px 0px 0px; width: 434px; height: 74px;"
+              required="true"
+              value="{{ textInput }}"></textarea>
+    <!--<input type="text" name="txtTexto" style="width:500px;height: 74px;" required=True>!-->
     <br>
     <br>
-    {{ courts }}
+    <input type="submit" value="Submit" >
+    <br>
+    <br>
+    <br>
+    <b>Cadena de entrada:</b>
+    <br>
+    <pre>{{ get_form }}</pre>
+    <br>
+    <br>
+    <b>Analisis morfologico</b>
+    <br>
+    <pre>{{respuesta}}</pre>
+
+    <br>
+
 </form>
 </body>
 </html>
