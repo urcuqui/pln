@@ -64,7 +64,8 @@ def index():
     for s in ls :
        ws = s.get_words();
        for w in ws :
+          an = w.get_analysis()
+          a = an[0]
           print(w.get_form()+" "+w.get_lemma()+" "+w.get_tag()+" "+w.get_senses_string())
-
-
+          print(len(an))
 index()

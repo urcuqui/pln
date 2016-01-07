@@ -7,10 +7,53 @@
 </head>
 
 <body>
-    <h1>Trabajo de PLN para Fundamentos de computacion inteligente</h1>
-    <h2>Christian Camilo Urcuqui</h2>
+    <div id="menu" style="position: fixed;height: 60px;width: 100%;top: 0;left: 0;border-top:
+    5px solid #dc143c;background: #fff;-moz-box-shadow: 0 2px 3px 0px rgba(0.16, 0, 0, 0);
+    -webkit-box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.16);z-index: 999999;">
+       <div style="width: 900px;margin: 0 auto;margin-bottom: 10px; margin-left: 10px;">
+          <br>
+          <b>Trabajo de PLN para Fundamentos de computacion inteligente
+              <br>
+          Christian Camilo Urcuqui</P></b>
+       </div>
+    </div>
     <br>
     <br>
+    <br>
+    <br>
+<div>
+    <b> Resumen</b>
+    <p>
+        Este desarrollo tiene como finalidad ser un analizador morfologico basado en las APIs de Freeling.
+        <br> A partir de una sentencia de entrada el sistema realiza un proceso y despliega la informacion
+        <br> morfologica de cada palabra.
+        <br> Freeling es una herramienta open source para analisis de lenguaje que hace uso de las etiquetas <a
+            href="http://www.ilc.cnr.it/EAGLES96/annotate/annotate.html">EAGLES</a>,
+        <br> entre algunas de sus utilidades empleadas en este proyecto se encuentran:
+        <li>"tokenizer.dat" permite obtener el metodo para la Tokenizacion de palabras sobre el
+                texto segmentado</li>
+        <li>"splitter.dat" luego de tokenizar, esta utilidad permite detectar el limite de una frase</li>
+        <br>
+        http://nlp.lsi.upc.edu/freeling/
+        <br>
+        <br>
+        <i>Tecnologias implementadas</i>
+        <li>Python2.7</li>
+        <li>Django</li>
+        <li>Freeling3.1</li>
+        <br>
+        <i>Enlace del codigo fuente:</i>
+        <br>
+        https://github.com/xwolf12/pln
+
+    </p>
+
+
+</div>
+    <br>
+
+
 <form action="/your-name/" method="get">
     <b>Escriba la sentencia:</b>
     <br>
@@ -30,11 +73,12 @@
     <br>
     <pre>{{ get_form }}</pre>
     <br>
-    <br>
     <b>Analisis morfologico</b>
     <br>
     <pre>{{respuesta}}</pre>
-
+    <b>Cantidad de palabras</b>
+    <br>
+    <pre>{{palabras}}</pre>
     <br>
 
 </form>
