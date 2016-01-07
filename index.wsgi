@@ -25,7 +25,7 @@ sys.path.append('/var/www/pln/pln')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pln.settings")
 
 # Activate your virtual env
-activate_env=os.path.expanduser("/home/i2t/.virtualenvs/fusion_center_env/bin/activate_this.py")
+activate_env=os.path.expanduser("/home/i2t/.virtualenvs/pln/bin/activate_this.py")
 execfile(activate_env, dict(__file__=activate_env))
 
 application = get_wsgi_application()
