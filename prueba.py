@@ -22,7 +22,7 @@ LANG="es";
 freeling.util_init_locale("default");
 
 # create language analyzer
-#la=freeling.lang_ident(DATA+"common/lang_ident/ident.dat");
+la=freeling.lang_ident(DATA+"common/lang_ident/ident.dat");
 
 # create options set for maco analyzer. Default values are Ok, except for data files.
 op= freeling.maco_options("es");
@@ -34,11 +34,14 @@ op.set_data_files("",DATA+LANG+"/locucions.dat", DATA+LANG+"/quantities.dat",
 
 # create analyzers
 tk=freeling.tokenizer(DATA+LANG+"/tokenizer.dat");
+#tg=freeling.hmm_tagger("en",DATA+LANG+"en/tagger.dat",1,2)
 sp=freeling.splitter(DATA+LANG+"/splitter.dat");
 mf=freeling.maco(op);
+ner = freeling.ner(DATA+LANG+"/nerc/ner/ner-ab-rich.dat")
+nec = freeling.nec(DATA+LANG+"/nerc/nec/nec-ab-rich.dat")
 
-#tg=freeling.hmm_tagger(DATA+LANG+"/tagger.dat",1,2);
-#sen=freeling.senses(DATA+LANG+"/senses.dat");
+tg=freeling.hmm_tagger(DATA+LANG+"/tagger.dat",1,2);
+sen=freeling.senses(DATA+LANG+"/senses.dat");
 
 parser= freeling.chart_parser(DATA+LANG+"/chunker/grammar-chunk.dat");
 dep=freeling.dep_txala(DATA+LANG+"/dep/dependences.dat", parser.get_start_symbol());
@@ -56,16 +59,53 @@ res=''
 def index():
     """Renders the index page"""
     res = ''
-
+    out = ''
     l = tk.tokenize(DATA)
     ls = sp.split(l,0)
     ls = mf.analyze(ls)
+    ls = tg.analyze(ls);
+    ls = sen.analyze(ls);
+    ls = ner.analyze(ls)
+    ls = nec.analyze(ls)
 
-    for s in ls :
-       ws = s.get_words();
-       for w in ws :
-          an = w.get_analysis()
-          a = an[0]
-          print(w.get_form()+" "+w.get_lemma()+" "+w.get_tag()+" "+w.get_senses_string())
-          print(len(an))
+    # for s in ls :
+    #    ws = s.get_words();
+    #    for w in ws :
+    #       an = w.get_analysis()
+    #       a = an[0]
+    #       print(w.get_form()+" "+w.get_lemma()+" "+w.get_tag()+" "+w.get_senses_string())
+    ss = []
+    all_tags = []
+    all_lemmas = []
+    all_senses = []
+    for s in ls:
+        wss = []
+        ws = s.get_words()
+        for w in ws:
+            an = w.get_analysis()
+
+            a = an[0]
+
+            senses = a.get_senses_string().split("/")
+            chosen_sense = ""
+            if (len(senses) > 0):
+                chosen_sense = senses[0].split(':')[0]
+                all_senses.append(chosen_sense)
+            all_tags.append(a.get_tag())
+            all_lemmas.append(a.get_lemma())
+            wse = dict(wordform = w.get_form(),
+                       strstart = w.get_span_start(),
+                       strfinish = w.get_span_finish(),
+                       lemma = a.get_lemma(),
+                       tag = a.get_tag(),
+                       sense = chosen_sense,
+                       senses = senses)
+            wss.append(wse)
+            print(wss)
+        ss.append(wss)
+    #out['analysis'] = ss
+    #out['lang'] = la.identify_language(DATA["text"],["es","pt","en","it","fr","de"])
+    #print (ss)
+
+
 index()

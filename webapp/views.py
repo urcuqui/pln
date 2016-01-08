@@ -90,6 +90,7 @@ def get_name(request):
             print('OK')
             data = form.cleaned_data['textInput']
             get_form = ''
+            get_lemma=''
             respuesta = '('
             l = tk.tokenize(data)
             ls = sp.split(l,0)
@@ -101,13 +102,13 @@ def get_name(request):
                for w in ws :
                   get_form += w.get_form()+" "
                   respuesta +=("("+w.get_form()+" ("+w.get_tag()+")) ")
-                  # get_lemma += w.get_lemma()+" "
+                  get_lemma += w.get_lemma()+" "
                   # get_tag += w.get_tag() + " "
                   #get_senses_string += w.get_senses_string() + " "
                   palabras+=1
             respuesta +=")"
             return render_to_response('index.html', RequestContext(request,{'respuesta':respuesta, 'get_form': get_form
-                                                                            , 'palabras':(palabras-1)}))
+                                                                            , 'palabras':(palabras-1), 'get_lemma': get_lemma}))
 
     # if a GET (or any other method) we'll create a blank form
     else:
